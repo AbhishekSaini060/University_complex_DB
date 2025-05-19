@@ -1,4 +1,16 @@
+## 📦 Tables in the `university` Database
 
+- `classroom`
+- `department`
+- `course`
+- `instructor`
+- `student`
+- `section`
+- `teaches`
+- `takes`
+- `advisor`
+- `prereq`
+- `time_slot`
 
 
 ⸻
