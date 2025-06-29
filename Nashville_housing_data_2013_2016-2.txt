@@ -1,0 +1,38 @@
+# Fisrt of all we create a database in MySQL Workbench of same name
+
+CREATE DATABASE NashvilleHousing;
+USE NashvilleHousing;
+
+# Secondly, we create a table which contains same no. of columns( fields )
+
+CREATE TABLE housing_data (
+    ParcelID VARCHAR(50),
+    LandUse VARCHAR(100),
+    PropertyAddress VARCHAR(255),
+    suit_condo VARCHAR(20),
+    PropertyCity VARCHAR(20),
+    SaleDate VARCHAR(100),
+    SalePrice VARCHAR(100),
+    LegalReference VARCHAR(100),
+    SoldAsVacant VARCHAR(20),
+    MultipleParcelsInvolvedinSale VARCHAR(20),
+    OwnerName VARCHAR(255),
+    OwnerAddress VARCHAR(255),
+    OwnerCity VARCHAR(20),
+    OwnerState VARCHAR(20),
+    Acreage FLOAT,
+    TaxDistrict VARCHAR(100),
+    Neighbour INT,
+    IMAGE VARCHAR(30),
+    LandValue FLOAT,
+    BuildingValue FLOAT,
+    TotalValue FLOAT,
+    FinishedArea FLOAT,
+    FoundationType VARCHAR(20),
+    YearBuilt INT,
+    ExteriorWall VARCHAR(20),
+    Grade VARCHAR(10),
+    Bedrooms INT,
+    FullBath INT,
+    HalfBath INT
+);
