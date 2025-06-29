@@ -354,3 +354,110 @@ select ct.course_id, ts.start_hr from course_time ct join time_slot ts on ct.id 
 -- 8. Display the salary of instructors from Watson building.
 
 select i.name, i.salary ,d.dept_name from instructor i join department d on i.dept_name=d.dept_name where d.building='watson' order by i.salary desc;
+
+select i.name, i.salary ,d.dept_name from instructor i join department d on i.dept_name=d.dept_name where d.building='watson' order by i.salary desc;
+
+-- 9. Show the title of courses available on Monday.
+
+with course_id as ( 
+select c.title,sec.id from course c join section sec on c.course_id = sec.course_id )
+
+select ci.title, ts.day from course_id ci join time_slot ts on ci.id = ts.id where ts.day='M';
+
+select sec.course_id, ts.day from section sec join time_slot ts on sec.id= ts.id where ts.day='M';
+
+-- 10. Find the number of courses that start at 8 and end at 8.
+SELECT 
+    ts.start_hr, 
+    ts.end_hr, 
+    COUNT(*) AS "number of courses"
+FROM 
+    section s
+JOIN 
+    time_slot ts ON s.time_slot_id = ts.time_slot_id
+WHERE 
+    ts.start_hr = 8 AND ts.end_hr = 8
+GROUP BY 
+    ts.start_hr, ts.end_hr;
+    
+-- 11. Find instructors having salary more than 90000.
+select name from instructor where salary>90000;
+
+-- 12. Find student records taking courses before 2018.
+select  * from takes where year<2018;
+
+-- 13. Find student records taking courses in the fall semester and coming under first section.
+select * from takes where sec_id=1 and semester='fall';
+
+-- 14. Find student records taking courses in the fall semester and coming under second section.
+select * from takes where sec_id=2 and semester='fall';
+
+-- 15. Find student records taking courses in the summer semester, coming under first section in the year 2017.
+select * from takes where semester='summer' and sec_id=1 and year=2017;
+
+-- 16. Find student records taking courses in the fall semester and having A grade.
+select * from takes where grade='A' and semester='fall';
+
+-- 17. Find student records taking courses in the summer semester and having A grade.
+select * from takes where grade='A' and semester='summer';
+
+-- 18. Display section details with B time slot, room number 514 and in the Painter building.
+select * from section where time_slot_id='B' and room_number=514 and building='painter';
+
+-- 19. Find all course titles which have a string "Intro.".
+select title from course where title like '%intro%';
+
+-- 20. Find the titles of courses in the Computer Science department that have 3 credits.
+select title from course where dept_name='comp. sci.' and credits=3;
+
+-- 21. Find IDs and titles of all the courses which were taught by an instructor named Einstein. Make sure there are no duplicates in the result.
+select distinct c.course_id, c.title from course c join instructor i on c.dept_name = i.dept_name where i.name='einstein';
+
+-- 22. Find all course IDs which start with CS
+select course_id from course where course_id like 'CS%';
+
+-- 23. For each department, find the maximum salary of instructors in that department.
+select distinct dept_name , max(salary) from instructor group by dept_name;
+
+-- 24. Find the enrollment (number of students) of each section that was offered in Fall 2017.
+select sec_id, count(semester) "number of students", semester, year from takes where semester='fall' and year=2017 group by sec_id;
+
+-- 25. Increase(update) the salary of each instructor by 10% if their current salary is between 0 and 90000.
+set sql_safe_updates=0;
+update instructor set salary=salary * 1.10 where salary between 0 and 90000;
+select * from instructor;
+
+-- 26. Find the names of instructors from Biology department having salary more than 50000.
+select name,salary from instructor where dept_name='Biology' and salary >50000;
+
+-- 27. Find the IDs and titles of all courses taken by a student named Shankar.
+with course_id_of_shankar as (select s.name,s.id,t.course_id from student s join takes t on s.id=t.id where s.name='shankar')
+select cios.name,cios.course_id, c.title from course_id_of_shankar cios join course c on cios.course_id = c.course_id;
+
+-- 28. For each department, find the total credit hours of courses in that department.
+select d.dept_name, sum(c.credits) from department d join course c on d.dept_name=c.dept_name group by c.dept_name;
+
+-- 29. Find the number of courses having A grade in each building.
+select s.building,count(s.building) from section s  join takes t on s.course_id = t.course_id where t.grade ='A' group by s.building;
+
+-- 30. Display number of students in each department having total credits divisible by course credits.
+select s.dept_name, count(s.name) " number of students" from student s join course c on s.dept_name = c.dept_name where s.tot_cred/ group by s.dept_name;
+
+-- 31. Display number of courses available in each building.
+select d.building, count(c.course_id) 
+from 
+department d join course c on d.dept_name = c.dept_name 
+group by d.building 
+order by d.building asc;
+
+-- 32. Find number of instructors in each department having 'a' and 'e' in  t heir name.
+select dept_name, count(name) 
+from 
+instructor 
+where name like  '%a%e%' 
+group by dept_name;
+
+-- 33. Display number of courses being taught in classroom having capacity more than 20.
+with cld as (select * from classroom cl join department d on cl.building = d.building)
+select cld.room_number, cld.capacity, count(c.course_id) from cld join course c on cld.dept_name= c.dept_name group by c.course_id;
+select * from classroom cl join department d on cl.building = d.building;
